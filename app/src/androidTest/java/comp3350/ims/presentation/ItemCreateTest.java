@@ -15,6 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -27,11 +28,16 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import comp3350.ims.R;
+import comp3350.ims.application.Main;
+import comp3350.ims.application.Services;
+import comp3350.ims.business.AccessInventory;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -41,8 +47,18 @@ public class ItemCreateTest {
     public ActivityTestRule<HomeActivity> mActivityTestRule =
             new ActivityTestRule<>(HomeActivity.class);
 
+    @Before
+    public void setUp() {
+        Services.closeDataAccess();
+        Services.createDataAccess(Main.dbName);
+        Services.setAutoCommitOff();
+        AccessInventory accessInventory = new AccessInventory(true);
+
+    }
+
     @Test
     public void itemCreateTest() {
+
         ViewInteraction button = onView(
                 allOf(withId(R.id.buttonManager), withText("Manager"),
                         childAtPosition(
@@ -281,6 +297,8 @@ public class ItemCreateTest {
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
                         isDisplayed()));
         linearLayout.check(matches(isDisplayed()));
+
+
     }
 
     private static Matcher<View> childAtPosition(
@@ -300,5 +318,11 @@ public class ItemCreateTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    @After
+    public void tearDown()  {
+        Services.closeDataAccess();
+
     }
 }

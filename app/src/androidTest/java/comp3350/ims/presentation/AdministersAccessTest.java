@@ -33,6 +33,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import comp3350.ims.R;
+import comp3350.ims.application.Main;
+import comp3350.ims.application.Services;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -44,11 +46,14 @@ public class AdministersAccessTest {
 
     @Before
     public void setUp() {
-    	//database
+        Services.closeDataAccess();
+        Services.createDataAccess(Main.dbName);
+        Services.setAutoCommitOff();
     }
 
+
     @Test
-    public void administersAccessTest() {
+    public void testHomeActivity(){
         ViewInteraction imageView = onView(
                 allOf(withId(R.id.imageView),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
@@ -66,6 +71,10 @@ public class AdministersAccessTest {
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class))),
                         isDisplayed()));
         button2.check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testManagerAccess(){
 
         ViewInteraction button3 = onView(
                 allOf(withId(R.id.buttonManager), withText("Manager"),
@@ -108,6 +117,11 @@ public class AdministersAccessTest {
         button7.check(matches(isDisplayed()));
 
         pressBack();
+
+    }
+
+    @Test
+    public void testEmployeeAccess(){
 
         ViewInteraction button8 = onView(
                 allOf(withId(R.id.buttonEmployee), withText("Employee"),
@@ -156,6 +170,7 @@ public class AdministersAccessTest {
         textView.check(matches(withText("")));
 
         pressBack();
+
     }
 
     private static Matcher<View> childAtPosition(
@@ -179,6 +194,6 @@ public class AdministersAccessTest {
 
     @After
     public void tearDown() {
-    	//database
+        Services.closeDataAccess();
     }
 }

@@ -27,11 +27,15 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import comp3350.ims.R;
+import comp3350.ims.application.Main;
+import comp3350.ims.application.Services;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -40,6 +44,13 @@ public class CreateLocationTest {
     @Rule
     public ActivityTestRule<HomeActivity> mActivityTestRule =
             new ActivityTestRule<>(HomeActivity.class);
+
+    @Before
+    public void setUp() {
+
+        Services.createDataAccess(Main.dbName);
+        Services.setAutoCommitOff();
+    }
 
     @Test
     public void createLocationTest() {
@@ -310,5 +321,10 @@ public class CreateLocationTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    @After
+    public void tearDown()  {
+      Services.closeDataAccess();
     }
 }
