@@ -80,13 +80,17 @@ public class ItemCreateActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "Error: name can't be empty", Toast.LENGTH_SHORT);
                     toast.show();
 
-                } else if (TextUtils.isEmpty(priceString)) {
+                } else if (nameString.length() > 15) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Error: name is too long", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (TextUtils.isEmpty(priceString) || priceString.length() > 10) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Error: Please enter a valid price", Toast.LENGTH_SHORT);
                     toast.show();
-                } else if (TextUtils.isEmpty(quantityString)) {
+                }  else if (TextUtils.isEmpty(quantityString) || quantityString.length() > 4) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Error: Please enter a valid quantity", Toast.LENGTH_SHORT);
                     toast.show();
-                } else {
+                }
+                 else {
                     try {
                         String categoryString = itemCategory.getSelectedItem().toString();
                         String locationString = itemLocation.getSelectedItem().toString();
