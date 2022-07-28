@@ -41,7 +41,7 @@ public class ItemCreateActivity extends AppCompatActivity {
         locationList = new ArrayList < > ();
 
         accessInventory.getCategories(categoryList);
-        accessInventory.getLocations(locationList) ;
+        accessInventory.getLocations(locationList);
         ArrayAdapter < String > adapterCategory = new ArrayAdapter < > (this, R.layout.support_simple_spinner_dropdown_item, categoryList);
         adapterCategory.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinCategory.setAdapter(adapterCategory);
@@ -87,19 +87,22 @@ public class ItemCreateActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "Error: Please enter a valid quantity", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
-                    try{
+                    try {
                         String categoryString = itemCategory.getSelectedItem().toString();
                         String locationString = itemLocation.getSelectedItem().toString();
                         float price = Float.parseFloat(priceString);
                         int quantity = Integer.parseInt(quantityString);
                         boolean isInserted = accessInventory.insertItemType(nameString, price, quantity, locationString, thisDate, categoryString);
-                        if(isInserted){
+                        if (isInserted) {
                             Toast.makeText(ItemCreateActivity.this, "New Item Created", Toast.LENGTH_SHORT).show();
-                        } else{
+                            itemName.setText("");
+                            itemPrice.setText("");
+                            itemQuantity.setText("");
+
+                        } else {
                             Toast.makeText(ItemCreateActivity.this, "Item already exists", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    catch(Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(ItemCreateActivity.this, "Please select a location and a category", Toast.LENGTH_SHORT).show();
                     }
 

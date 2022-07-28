@@ -2,7 +2,7 @@ package comp3350.ims.objects;
 
 import java.util.*;
 
-public class ItemType implements Comparable<ItemType> {
+public class ItemType implements Comparable < ItemType > {
     public static final int MIN_QUANTITY = 10;
 
     private int ID;
@@ -24,7 +24,7 @@ public class ItemType implements Comparable<ItemType> {
         location = "";
         date = "";
         category = "";
-        items = new ArrayList<>();
+        items = new ArrayList < > ();
     } //Base constructor
 
     public ItemType(String name, float price, String location, String date, String category) {
@@ -53,11 +53,11 @@ public class ItemType implements Comparable<ItemType> {
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         boolean isEqual = false;
-        if(o instanceof ItemType){
+        if (o instanceof ItemType) {
             ItemType item = (ItemType) o;
-            if((this.name).equals(item.getName())){
+            if ((this.name).equals(item.getName())) {
                 isEqual = true;
             }
         }
@@ -66,9 +66,9 @@ public class ItemType implements Comparable<ItemType> {
 
     @Override
     public int compareTo(ItemType o) {
-        if(this.quantity == o.getQuantity())
+        if (this.quantity == o.getQuantity())
             return 0;
-        else if(this.quantity > o.getQuantity())
+        else if (this.quantity > o.getQuantity())
             return 1;
         else
             return -1;
@@ -86,12 +86,14 @@ public class ItemType implements Comparable<ItemType> {
         return price;
     }
 
-    public void setPrice(float p) { this.price = p; }
+    public void setPrice(float p) {
+        this.price = p;
+    }
 
     public Item getItem(int index) {
-        if(!items.isEmpty()) {
+        if (!items.isEmpty()) {
             return items.get(index);
-        }else{
+        } else {
             return null;
         }
     }
@@ -108,7 +110,9 @@ public class ItemType implements Comparable<ItemType> {
         return category;
     }
 
-    public void setCategory( String c) { this.category = c; }
+    public void setCategory(String c) {
+        this.category = c;
+    }
 
     public String getLocation() {
         return location;
@@ -127,7 +131,7 @@ public class ItemType implements Comparable<ItemType> {
         this.needsRefill = needsRefill;
     }
 
-    private void checkRefill(){
+    private void checkRefill() {
         this.needsRefill = this.quantity <= MIN_QUANTITY;
     }
 
@@ -137,7 +141,7 @@ public class ItemType implements Comparable<ItemType> {
 
     public void setID(int id) {
         this.ID = id;
-        if(id > itemTypeID){
+        if (id > itemTypeID) {
             itemTypeID = id + 1;
         }
     }

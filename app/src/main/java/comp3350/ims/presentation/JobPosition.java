@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import comp3350.ims.R;
-import comp3350.ims.business.AccessInventory;
+
 
 public class JobPosition extends AppCompatActivity {
 

@@ -13,8 +13,7 @@ public class DataAccessTest extends TestCase {
 
     private DataAccess dataAccess;
 
-    public DataAccessTest(String arg0)
-    {
+    public DataAccessTest(String arg0) {
         super(arg0);
     }
 
@@ -53,27 +52,27 @@ public class DataAccessTest extends TestCase {
         System.out.println("Finished Persistence test DataAccess (using stub)");
     }
 
-    public void testSimpleCases(){
+    public void testSimpleCases() {
         Inventory inventory;
-        ArrayList<String> categoryList = new ArrayList<String>();
-        ArrayList<String> locationList = new ArrayList<String>();
+        ArrayList < String > categoryList = new ArrayList < String > ();
+        ArrayList < String > locationList = new ArrayList < String > ();
 
         inventory = dataAccess.getActiveInventory();
         dataAccess.getCategoryList(categoryList);
         dataAccess.getLocationList(locationList);
-        assertEquals(inventory.getNumOfItems(),0);
-        assertEquals(categoryList.size(),0);
-        assertEquals(locationList.size(),0);
+        assertEquals(inventory.getNumOfItems(), 0);
+        assertEquals(categoryList.size(), 0);
+        assertEquals(locationList.size(), 0);
 
         //Item Type Tests
-        ItemType milk = new ItemType("Milk",5,"Warehouse","7/27/2022","Dairy");
+        ItemType milk = new ItemType("Milk", 5, "Warehouse", "7/27/2022", "Dairy");
         dataAccess.insertItem(milk);
         inventory = dataAccess.getActiveInventory();
         assertTrue(inventory.contains(milk));
 
-        dataAccess.editItemType(milk,"Chocolate Milk",milk.getPrice(), milk.getCategory());
+        dataAccess.editItemType(milk, "Chocolate Milk", milk.getPrice(), milk.getCategory());
         inventory = dataAccess.getActiveInventory();
-        assertEquals("Chocolate Milk",milk.getName());
+        assertEquals("Chocolate Milk", milk.getName());
 
         //Category Tests
         dataAccess.addCategory("Dairy");
@@ -98,75 +97,75 @@ public class DataAccessTest extends TestCase {
         assertFalse(locationList.contains("Warehouse"));
 
         //Item Tests
-        Item firstMilk = new Item(milk.getLocation(),milk.getDate());
+        Item firstMilk = new Item(milk.getLocation(), milk.getDate());
         milk.addItem(firstMilk);
-        dataAccess.addItem(firstMilk,milk.getID());
+        dataAccess.addItem(firstMilk, milk.getID());
         inventory = dataAccess.getActiveInventory();
-        assertEquals(firstMilk.getId(),inventory.getItem(0).getItem(0).getId());
+        assertEquals(firstMilk.getId(), inventory.getItem(0).getItem(0).getId());
 
-        dataAccess.editItem(firstMilk,"Warehouse2");
+        dataAccess.editItem(firstMilk, "Warehouse2");
         inventory = dataAccess.getActiveInventory();
-        assertEquals("Warehouse2",inventory.getItem(0).getItem(0).getLocation());
+        assertEquals("Warehouse2", inventory.getItem(0).getItem(0).getLocation());
 
-        dataAccess.removeItem(firstMilk.getId(),milk.getID(),milk.getQuantity());
+        dataAccess.removeItem(firstMilk.getId(), milk.getID(), milk.getQuantity());
         milk.removeItem(0);
         inventory = dataAccess.getActiveInventory();
         assertNull(inventory.getItem(0).getItem(0));
     }
 
-    public void testTypicalCases(){
+    public void testTypicalCases() {
         Inventory inventory;
-        ArrayList<String> categoryList = new ArrayList<String>();
-        ArrayList<String> locationList = new ArrayList<String>();
+        ArrayList < String > categoryList = new ArrayList < String > ();
+        ArrayList < String > locationList = new ArrayList < String > ();
 
         dataAccess.addCategory("Produce");
         dataAccess.addLocation("Warehouse");
         dataAccess.addLocation("Store");
-        ItemType itemType = new ItemType("Banana",0.25f,"Warehouse","7/27/2022","Produce");
+        ItemType itemType = new ItemType("Banana", 0.25f, "Warehouse", "7/27/2022", "Produce");
         dataAccess.insertItem(itemType);
-        for(int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             Item item = new Item("Warehouse", "7/27/2022");
             itemType.addItem(item);
-            dataAccess.addItem(item,itemType.getID());
+            dataAccess.addItem(item, itemType.getID());
         }
         inventory = dataAccess.getActiveInventory();
         dataAccess.getLocationList(locationList);
         dataAccess.getCategoryList(categoryList);
         itemType.getItem(0).setLocation("Store");
-        dataAccess.editItem(inventory.getItem(0).getItem(0),"Store");
+        dataAccess.editItem(inventory.getItem(0).getItem(0), "Store");
         itemType.removeItem(1);
-        dataAccess.removeItem(inventory.getItem(0).getItem(1).getId(),inventory.getItem(0).getID(),inventory.getItem(0).getQuantity());
+        dataAccess.removeItem(inventory.getItem(0).getItem(1).getId(), inventory.getItem(0).getID(), inventory.getItem(0).getQuantity());
 
         categoryList.clear();
         locationList.clear();
         dataAccess.getCategoryList(categoryList);
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
-        assertEquals(1,inventory.getNumOfItems());
-        assertEquals(4,inventory.getItem(0).getQuantity());
-        assertEquals("Store",inventory.getItem(0).getItem(0).getLocation());
-        assertEquals(1,categoryList.size());
-        assertEquals(2,locationList.size());
+        assertEquals(1, inventory.getNumOfItems());
+        assertEquals(4, inventory.getItem(0).getQuantity());
+        assertEquals("Store", inventory.getItem(0).getItem(0).getLocation());
+        assertEquals(1, categoryList.size());
+        assertEquals(2, locationList.size());
     }
 
-    public void testEdgeCases(){
+    public void testEdgeCases() {
         Inventory inventory;
-        ArrayList<String> categoryList = new ArrayList<String>();
-        ArrayList<String> locationList = new ArrayList<String>();
+        ArrayList < String > categoryList = new ArrayList < String > ();
+        ArrayList < String > locationList = new ArrayList < String > ();
 
         //Empty Tests
         dataAccess.getCategoryList(categoryList);
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(0,inventory.getNumOfItems());
-        assertEquals(0,categoryList.size());
-        assertEquals(0,locationList.size());
+        assertEquals(0, inventory.getNumOfItems());
+        assertEquals(0, categoryList.size());
+        assertEquals(0, locationList.size());
 
         //Single Value
         dataAccess.addLocation("1");
         dataAccess.addCategory("1");
-        ItemType itemType = new ItemType("Banana",0.25f,"Warehouse","7/27/2022","Produce");
+        ItemType itemType = new ItemType("Banana", 0.25f, "Warehouse", "7/27/2022", "Produce");
         dataAccess.insertItem(itemType);
 
         categoryList.clear();
@@ -175,18 +174,18 @@ public class DataAccessTest extends TestCase {
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(0,inventory.getItem(0).getQuantity());
-        assertEquals(1,inventory.getNumOfItems());
-        assertEquals(1,categoryList.size());
-        assertEquals(1,locationList.size());
+        assertEquals(0, inventory.getItem(0).getQuantity());
+        assertEquals(1, inventory.getNumOfItems());
+        assertEquals(1, categoryList.size());
+        assertEquals(1, locationList.size());
 
         Item item = new Item(itemType.getLocation(), itemType.getDate());
         itemType.addItem(item);
-        dataAccess.addItem(item,itemType.getID());
+        dataAccess.addItem(item, itemType.getID());
 
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(1,inventory.getItem(0).getQuantity());
+        assertEquals(1, inventory.getItem(0).getQuantity());
 
         //After Removing
         itemType.removeItem(0);
@@ -200,30 +199,30 @@ public class DataAccessTest extends TestCase {
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(0,inventory.getItem(0).getQuantity());
-        assertEquals(0,categoryList.size());
-        assertEquals(0,locationList.size());
+        assertEquals(0, inventory.getItem(0).getQuantity());
+        assertEquals(0, categoryList.size());
+        assertEquals(0, locationList.size());
     }
 
-    public void testInvalidCases(){
+    public void testInvalidCases() {
         Inventory inventory;
-        ArrayList<String> categoryList = new ArrayList<String>();
-        ArrayList<String> locationList = new ArrayList<String>();
+        ArrayList < String > categoryList = new ArrayList < String > ();
+        ArrayList < String > locationList = new ArrayList < String > ();
 
-        dataAccess.addItem(null,-1);
+        dataAccess.addItem(null, -1);
         dataAccess.insertItem(null);
         dataAccess.addCategory(null);
         dataAccess.addLocation(null);
         dataAccess.removeLocation(null);
         dataAccess.removeCategory(null);
-        dataAccess.removeItem(-4,-1,-4);
+        dataAccess.removeItem(-4, -1, -4);
 
         dataAccess.getLocationList(locationList);
         dataAccess.getCategoryList(categoryList);
         inventory = dataAccess.getActiveInventory();
-        assertEquals(inventory.getNumOfItems(),0);
-        assertEquals(locationList.size(),0);
-        assertEquals(categoryList.size(),0);
+        assertEquals(inventory.getNumOfItems(), 0);
+        assertEquals(locationList.size(), 0);
+        assertEquals(categoryList.size(), 0);
 
         assertFalse(locationList.contains(null));
         assertFalse(categoryList.contains(null));

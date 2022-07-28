@@ -1,6 +1,5 @@
 package comp3350.ims.application;
 
-import java.sql.SQLException;
 
 import comp3350.ims.persistence.DataAccess;
 import comp3350.ims.persistence.DataAccessDatabase;

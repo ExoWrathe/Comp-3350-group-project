@@ -25,12 +25,12 @@ public class Item {
 
     public void setId(int i) {
         this.id = i;
-        if(i > ItemID){
+        if (i > ItemID) {
             ItemID = i + 1;
         }
     }
 
-    public void setLocation(String location){
+    public void setLocation(String location) {
         this.location = location;
     }
 

@@ -12,23 +12,23 @@ import comp3350.ims.persistence.DataAccess;
 
 public class AccessInventory {
 	private static boolean isManager = false;
-	private  DataAccess dataAccess;
+	private DataAccess dataAccess;
 	private static Inventory activeInventory;
 	private static int currentItemPosition;
 
 	public AccessInventory() {
-		dataAccess =  Services.getDataAccess(Main.dbName);
+		dataAccess = Services.getDataAccess(Main.dbName);
 
-		if(activeInventory == null) {
+		if (activeInventory == null) {
 			activeInventory = dataAccess.getActiveInventory();
 		}
 
 	}
 
 	public AccessInventory(boolean reset) {
-		dataAccess =  Services.getDataAccess(Main.dbName);
+		dataAccess = Services.getDataAccess(Main.dbName);
 
-		if(activeInventory == null || reset) {
+		if (activeInventory == null || reset) {
 			activeInventory = dataAccess.getActiveInventory();
 		}
 
@@ -38,18 +38,18 @@ public class AccessInventory {
 		return activeInventory;
 	}
 
-	public boolean insertItemType(String nameString, float price, int quantity, String locationString, String thisDate,String categoryString) {
+	public boolean insertItemType(String nameString, float price, int quantity, String locationString, String thisDate, String categoryString) {
 
 		boolean isInserted = true;
-		ItemType newItemType = new ItemType(nameString,price,locationString,thisDate,categoryString);
-		if(activeInventory.contains(newItemType)) {
+		ItemType newItemType = new ItemType(nameString, price, locationString, thisDate, categoryString);
+		if (activeInventory.contains(newItemType)) {
 			isInserted = false;
-		} else{
+		} else {
 			activeInventory.addItem(newItemType);
 			dataAccess.insertItem(newItemType);
-			ArrayList<Item> items = new ArrayList<>();
-			for(int i = 0; i < quantity; i++){
-				Item newItem = new Item(locationString,thisDate);
+			ArrayList < Item > items = new ArrayList < > ();
+			for (int i = 0; i < quantity; i++) {
+				Item newItem = new Item(locationString, thisDate);
 				dataAccess.addItem(newItem, newItemType.getID());
 				newItemType.addItem(newItem);
 			}
@@ -72,20 +72,20 @@ public class AccessInventory {
 		return activeInventory.getItem(index);
 	}
 
-	public String getCategories(ArrayList<String> categoryList) {
+	public String getCategories(ArrayList < String > categoryList) {
 		categoryList.clear();
 		return dataAccess.getCategoryList(categoryList);
 	}
 
-	public String getLocations(ArrayList<String> categoryList) {
+	public String getLocations(ArrayList < String > categoryList) {
 		categoryList.clear();
 		return dataAccess.getLocationList(categoryList);
 	}
 
-	public void addItem(String location, String date, ItemType itemType){
-		Item newItem = new Item(location,date);
+	public void addItem(String location, String date, ItemType itemType) {
+		Item newItem = new Item(location, date);
 		itemType.addItem(newItem);
-		dataAccess.addItem(newItem,itemType.getID());
+		dataAccess.addItem(newItem, itemType.getID());
 	}
 
 
@@ -101,33 +101,35 @@ public class AccessInventory {
 		}
 	}
 
-	public boolean removeLocation(String name){
+	public boolean removeLocation(String name) {
 
 		return dataAccess.removeLocation(name);
 	}
-	public boolean removeCategory (String name){
+	public boolean removeCategory(String name) {
 		return dataAccess.removeCategory(name);
 
 	}
-		public void removeIndividualItem ( int index){
-			ItemType itemType = getItem(currentItemPosition);
-			if (index >= 0 && itemType.getQuantity() > 0) {
-				Item item = itemType.getItem(index);
-				itemType.removeItem(index);
-				dataAccess.removeItem(item.getId(),itemType.getID(),itemType.getQuantity());
-			}
-
+	public void removeIndividualItem(int index) {
+		ItemType itemType = getItem(currentItemPosition);
+		if (index >= 0 && itemType.getQuantity() > 0) {
+			Item item = itemType.getItem(index);
+			itemType.removeItem(index);
+			dataAccess.removeItem(item.getId(), itemType.getID(), itemType.getQuantity());
 		}
-	public boolean isCategory(String name){
-		return dataAccess.isCategory(name) ;
+
 	}
-	public boolean isLocation(String name){
-		return dataAccess.isLocation(name) ;
+	public boolean isCategory(String name) {
+		return dataAccess.isCategory(name);
 	}
-	public boolean editItemType(ItemType itemType,String name,float price,String category){
-		return dataAccess.editItemType(itemType,name,price,category);
+	public boolean isLocation(String name) {
+		return dataAccess.isLocation(name);
 	}
-	public boolean editItem(Item item,String location){ return dataAccess.editItem(item,location); }
+	public boolean editItemType(ItemType itemType, String name, float price, String category) {
+		return dataAccess.editItemType(itemType, name, price, category);
+	}
+	public boolean editItem(Item item, String location) {
+		return dataAccess.editItem(item, location);
+	}
 	public static boolean isIsManager() {
 		return isManager;
 	}

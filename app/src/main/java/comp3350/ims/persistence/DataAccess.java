@@ -1,7 +1,5 @@
 package comp3350.ims.persistence;
 import java.util.ArrayList;
-import java.util.List;
-
 import comp3350.ims.objects.Inventory;
 import comp3350.ims.objects.Item;
 import comp3350.ims.objects.ItemType;

@@ -3,13 +3,11 @@ package comp3350.ims.presentation;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -51,7 +49,7 @@ public class ViewAllActivity extends Activity {
         }
     }
 
-    private String saveLocation ="";
+    private String saveLocation = "";
     public void buttonEditItemDialogOnClick(View v) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -72,7 +70,7 @@ public class ViewAllActivity extends Activity {
         spinLocation.setAdapter(adapterLocation);
 
         Spinner newLocation = (Spinner) inflator.findViewById(R.id.spinnerLocation);
-        ArrayAdapter<String> spinnerAdap =  (ArrayAdapter<String>) newLocation.getAdapter();
+        ArrayAdapter < String > spinnerAdap = (ArrayAdapter < String > ) newLocation.getAdapter();
         int spinnerPosition = spinnerAdap.getPosition(item.getLocation());
         newLocation.setSelection(spinnerPosition);
 
@@ -86,7 +84,7 @@ public class ViewAllActivity extends Activity {
 
 
                 adapter.notifyDataSetChanged();
-                accessInventory.editItem(item,saveLocation);
+                accessInventory.editItem(item, saveLocation);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

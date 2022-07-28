@@ -18,26 +18,26 @@ import comp3350.ims.business.AccessInventory;
 
 public class LocationActivity extends Activity {
 
-    private ArrayList<String> locationList;
+    private ArrayList < String > locationList;
     private ArrayAdapter adapter;
     private Button createButton;
     private EditText userText;
     private AccessInventory accessInventory;
     ListView listView;
-    Button deleteButton ;
+    Button deleteButton;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_location);
-        locationList = new ArrayList<String>();
+        locationList = new ArrayList < String > ();
 
         accessInventory = new AccessInventory();
 
         accessInventory.getLocations(locationList);
 
-        adapter = new ArrayAdapter<String>(this, R.layout.activity_list_item, R.id.text_view, locationList);
-         listView = (ListView) findViewById(R.id.LocationList);
+        adapter = new ArrayAdapter < String > (this, R.layout.activity_list_item, R.id.text_view, locationList);
+        listView = (ListView) findViewById(R.id.LocationList);
         listView.setAdapter(adapter);
         createButton = (Button) findViewById(R.id.btnCreateLocation);
         deleteButton = (Button) findViewById(R.id.btnDeleteLocation);
@@ -53,14 +53,14 @@ public class LocationActivity extends Activity {
     public void buttonsCreateLocationOnClick(View v) {
         String name = userText.getText().toString().trim();
         if (!TextUtils.isEmpty(name)) {
-            if(!accessInventory.isLocation(name)) {
+            if (!accessInventory.isLocation(name)) {
                 accessInventory.addLocation(name);
                 locationList.add(name);
                 adapter.notifyDataSetChanged();
                 userText.setText("");
                 Toast toast = Toast.makeText(getApplicationContext(), "Location created", Toast.LENGTH_SHORT);
                 toast.show();
-            }else{
+            } else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Location already exists", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -72,23 +72,19 @@ public class LocationActivity extends Activity {
 
     public void buttonsDeleteLocationOnClick(View v) {
         String name = userText.getText().toString().trim();
-        if(!accessInventory.isLocation(name)) {
+        if (!accessInventory.isLocation(name)) {
             Toast toast = Toast.makeText(getApplicationContext(), "Location was not found", Toast.LENGTH_SHORT);
             toast.show();
-        }else if (!TextUtils.isEmpty(name) && accessInventory.removeLocation(name)) {
-                locationList.remove(name);
-                adapter.notifyDataSetChanged();
-                userText.setText("");
-                Toast toast = Toast.makeText(getApplicationContext(), "Location Deleted", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        else {
+        } else if (!TextUtils.isEmpty(name) && accessInventory.removeLocation(name)) {
+            locationList.remove(name);
+            adapter.notifyDataSetChanged();
+            userText.setText("");
+            Toast toast = Toast.makeText(getApplicationContext(), "Location Deleted", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
             Toast toast = Toast.makeText(getApplicationContext(), "Location was not found", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
 
 }
-
-
-

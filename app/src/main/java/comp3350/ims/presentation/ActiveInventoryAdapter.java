@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
-
-import java.util.Locale;
-
 import comp3350.ims.R;
 import comp3350.ims.objects.Inventory;
 import comp3350.ims.objects.ItemType;
@@ -22,7 +19,7 @@ public class ActiveInventoryAdapter extends BaseAdapter {
 
     public ActiveInventoryAdapter(Context context, Inventory inventory) {
         this.filteredInventory = inventory;
-        this.mainInventory= inventory;
+        this.mainInventory = inventory;
         this.filteredInventory.reorderByQuantity();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -52,7 +49,7 @@ public class ActiveInventoryAdapter extends BaseAdapter {
 
             TextView itemPrice = (TextView) vi.findViewById(R.id.itemPrice);
             itemPrice.setText("Price: $" + filteredInventory.getItem(position).getPrice() + "");
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 
@@ -80,15 +77,14 @@ public class ActiveInventoryAdapter extends BaseAdapter {
             FilterResults results = new FilterResults();
             Inventory tempInventory = new Inventory();
 
-            if(constraint == null || constraint.length() == 0){
+            if (constraint == null || constraint.length() == 0) {
                 results.count = mainInventory.getNumOfItems();
                 results.values = mainInventory;
-            }
-            else{
+            } else {
                 ItemType item;
-                for(int i = 0; i < mainInventory.getNumOfItems(); i++){
+                for (int i = 0; i < mainInventory.getNumOfItems(); i++) {
                     item = mainInventory.items.get(i);
-                    if(((item.getName()).toLowerCase()).startsWith((constraint.toString()).toLowerCase())){
+                    if (((item.getName()).toLowerCase()).startsWith((constraint.toString()).toLowerCase())) {
                         tempInventory.addItem(item);
                     }
                 }
@@ -103,7 +99,7 @@ public class ActiveInventoryAdapter extends BaseAdapter {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            if(results.count > 0) {
+            if (results.count > 0) {
                 filteredInventory = (Inventory) results.values;
                 mainInventory.setFilteredItems(filteredInventory.items);
                 notifyDataSetChanged();
