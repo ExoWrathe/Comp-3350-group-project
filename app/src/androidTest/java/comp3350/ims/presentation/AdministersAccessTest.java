@@ -26,6 +26,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +41,11 @@ public class AdministersAccessTest {
     @Rule
     public ActivityTestRule<HomeActivity> mActivityTestRule =
             new ActivityTestRule<>(HomeActivity.class);
+
+    @Before
+    public void setUp() {
+    	//database
+    }
 
     @Test
     public void administersAccessTest() {
@@ -168,5 +175,10 @@ public class AdministersAccessTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    @After
+    public void tearDown() {
+    	//database
     }
 }
