@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -30,11 +31,18 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import comp3350.ims.R;
+import comp3350.ims.application.Main;
+import comp3350.ims.application.Services;
+import comp3350.ims.business.AccessInventory;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -44,16 +52,25 @@ public class InventoryTest {
     public ActivityTestRule<HomeActivity> mActivityTestRule =
             new ActivityTestRule<>(HomeActivity.class);
 
+    @Before
+    public void setUp() {
+        Services.closeDataAccess();
+        Services.createDataAccess(Main.dbName);
+        Services.setAutoCommitOff();
+        AccessInventory accessInventory = new AccessInventory(true);
+    }
+
+
+
     @Test
-    public void inventoryTest() {
-        ViewInteraction button = onView(
-                allOf(withId(R.id.buttonManager), withText("Manager"),
+    public void testInventory(){
+        ViewInteraction button = onView(allOf(withId(R.id.buttonManager), withText("Manager"),
+                childAtPosition(
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
+                                withClassName(is("android.widget.RelativeLayout")),
                                 1),
-                        isDisplayed()));
+                        1),
+                isDisplayed()));
         button.perform(click());
 
         ViewInteraction appCompatButton = onView(
@@ -71,8 +88,9 @@ public class InventoryTest {
                         isDisplayed()));
         button2.perform(click());
 
-        pressBack();
 
+
+        pressBack();
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.buttonLocation),
@@ -95,7 +113,6 @@ public class InventoryTest {
         button3.perform(click());
 
         pressBack();
-
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.buttonItems), withText("Create New Item"),
@@ -143,7 +160,7 @@ public class InventoryTest {
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.itemCreateBtn),
                         isDisplayed()));
-        appCompatButton4.perform(click());
+        appCompatButton4.perform(click(),closeSoftKeyboard());
 
         pressBack();
 
@@ -157,38 +174,6 @@ public class InventoryTest {
                         isDisplayed()));
         appCompatButton5.perform(click());
 
-        DataInteraction appCompatButton6 = onData(
-                allOf(withId(R.id.viewAllItems),
-                        isDisplayed()));
-        appCompatButton6.perform(click());
-
-        ViewInteraction listView = onView(
-                allOf(withId(R.id.viewAllListView),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        listView.check(matches(isDisplayed()));
-
-        pressBack();
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.itemQuantity), withText("Quantity: 12"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        textView.check(matches(withText("Quantity: 12")));
-
-        ViewInteraction appCompatButton7 = onView(
-                allOf(withId(R.id.addItem), withText("+"),
-                        childAtPosition(
-                                withParent(withId(R.id.activeInventoryList)),
-                                4),
-                        isDisplayed()));
-        appCompatButton7.perform(click());
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.itemQuantity), withText("Quantity: 13"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        textView2.check(matches(withText("Quantity: 13")));
 
         ViewInteraction appCompatButton8 = onView(
                 allOf(withId(R.id.Edit), withText("Edit"),
@@ -279,17 +264,10 @@ public class InventoryTest {
                         isDisplayed()));
         textView5.check(matches(withText("Price: $3.0")));
 
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Collapse"),
-                        childAtPosition(
-                                allOf(withId(R.id.my_toolbar),
-                                        childAtPosition(
-                                                withClassName(is("android.support.constraint.ConstraintLayout")),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
+
+
     }
+
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
@@ -308,5 +286,10 @@ public class InventoryTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    @After
+    public void tearDown()  {
+        Services.closeDataAccess();
     }
 }
