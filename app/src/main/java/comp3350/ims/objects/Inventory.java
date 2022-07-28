@@ -23,7 +23,7 @@ public class Inventory {
     }
 
     public boolean addItem(ItemType newItem) {
-        if (newItem != null) {
+        if (newItem != null && !items.contains(newItem)) {
             items.add(newItem);
 
             return true;

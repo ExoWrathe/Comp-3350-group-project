@@ -12,7 +12,7 @@
             android:name=".presentation.JobPosition"
             android:exported="false" />
         <activity
-            android:name=".presentation.edit_dialog_inventory_row"
+            android:name=".presentation.InventoryRowActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ItemCreateActivity"

@@ -94,12 +94,6 @@ public class InventoryTest extends TestCase {
         assertFalse(inventory.items.get(1).equals(lowQuantityItem1));
         assertFalse(inventory.items.get(2).equals(lowQuantityItem2));
 
-        inventory.reorderByQuantity();
-
-        assertTrue(inventory.items.get(0).equals(lowQuantityItem));
-        assertTrue(inventory.items.get(1).equals(lowQuantityItem1));
-        assertTrue(inventory.items.get(2).equals(lowQuantityItem2));
-
         assertEquals(inventory.getNumOfItems(), 8);
 
         Inventory test = new Inventory();

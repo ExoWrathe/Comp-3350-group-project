@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import comp3350.ims.R;
 
-public class edit_dialog_inventory_row extends AppCompatActivity {
+public class InventoryRowActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

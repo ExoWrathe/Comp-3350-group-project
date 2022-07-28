@@ -19,12 +19,12 @@ public class ItemTest extends TestCase {
 
         Item test2 = new Item("location","date");
         assertEquals(test2.getLocation(),"location");
-        assertEquals(test2.getItemId(),"");
+        assertEquals(test2.getItemId(),1);
         assertEquals(test2.getDate(),"date");
 
         Item test3 = new Item("location","date");
         assertEquals(test3.getLocation(),"location");
-        assertEquals(test3.getItemId(),0);
+        assertEquals(test3.getItemId(),2);
         assertEquals(test3.getDate(),"date");
     }
 

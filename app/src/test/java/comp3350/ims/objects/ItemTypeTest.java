@@ -20,7 +20,7 @@ public class ItemTypeTest extends TestCase {
         assertEquals(item.getPrice(),(float) 3.5);
         assertEquals(item.getName(), "Oreo");
 
-        assertFalse(item.needsRefill());
+        assertTrue(item.needsRefill());
 
         item.removeItem(0);
         item.removeItem(0);
