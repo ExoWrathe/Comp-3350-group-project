@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 
 import comp3350.ims.application.Main;
 import comp3350.ims.application.Services;
-import comp3350.ims.objects.Item;
 import comp3350.ims.objects.ItemType;
 
 public class AccessInventoryTest extends TestCase {

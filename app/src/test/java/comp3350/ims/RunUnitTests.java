@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 
+import comp3350.ims.business.AccessInventoryTest;
 import comp3350.ims.objects.InventoryTest;
 import comp3350.ims.objects.ItemTest;
 import comp3350.ims.objects.ItemTypeTest;
