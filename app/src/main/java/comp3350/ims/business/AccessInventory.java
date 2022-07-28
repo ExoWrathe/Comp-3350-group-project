@@ -128,6 +128,7 @@ public class AccessInventory {
 		return dataAccess.editItemType(itemType,name,price,category);
 	}
 	public boolean editItem(Item item,String location){ return dataAccess.editItem(item,location); }
+
 	public static boolean isIsManager() {
 		return isManager;
 	}
