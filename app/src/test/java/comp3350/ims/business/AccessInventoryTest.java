@@ -10,7 +10,7 @@ import comp3350.ims.objects.ItemType;
 public class AccessInventoryTest extends TestCase {
 
 
-    public void testCategoryCases(){
+    public void testCategoryCases() {
         Services.createDataAccess(Main.dbName);
         Services.setAutoCommitOff();
 
@@ -27,7 +27,7 @@ public class AccessInventoryTest extends TestCase {
         Services.closeDataAccess();
     }
 
-    public void testLocationCases(){
+    public void testLocationCases() {
 
         Services.createDataAccess(Main.dbName);
         Services.setAutoCommitOff();
@@ -45,31 +45,31 @@ public class AccessInventoryTest extends TestCase {
         Services.closeDataAccess();
     }
 
-    public void testItemCases(){
+    public void testItemCases() {
         Services.createDataAccess(Main.dbName);
         Services.setAutoCommitOff();
 
         AccessInventory test = new AccessInventory();
-        ItemType testType = new ItemType("Test",3f,"test","test","test");
+        //   ItemType testType = new ItemType("Test",3f,"test","test","test");
 
         int prevSize = test.getActiveInventory().getNumOfItems();
+        test.insertItemType("Test", 3f, 0, "test", "test", "test");
+        test.addItem("here", "now", test.getItem(0));
+        ItemType returned = test.getItem(0);
+        assertTrue(returned.getSize() == prevSize + 1);
 
-        test.addItem("here","now",new ItemType());
-        ItemType returned = test.getItem(test.getActiveInventory().getNumOfItems());
-        assertTrue(returned.getSize() == prevSize+1);
-
-        test.removeIndividualItem(prevSize+1);
+        test.removeIndividualItem(0);
         int removedSize = test.getActiveInventory().getNumOfItems();
-        assertTrue(removedSize == prevSize);
+        assertTrue(removedSize == prevSize + 1);
         Services.closeDataAccess();
     }
 
-    public void testItemTypeCases(){
+    public void testItemTypeCases() {
         Services.createDataAccess(Main.dbName);
         Services.setAutoCommitOff();
         AccessInventory test = new AccessInventory();
 
-        assertTrue(test.insertItemType("Test",3f,3,"test","test","test"));
+        assertTrue(test.insertItemType("Test2", 3f, 3, "test", "test", "test"));
         Services.closeDataAccess();
     }
 
