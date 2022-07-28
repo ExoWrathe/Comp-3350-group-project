@@ -140,7 +140,7 @@ public class ActiveInventoryActivity extends AppCompatActivity {
 
         TextView itemQuantity = ((View) v.getParent()).findViewById(R.id.itemQuantity);
         try {
-            if (activeInventory.getItem(position).needsRefill()) {
+            if (activeInventory.getItemType(position).needsRefill()) {
                 itemQuantity.setTextColor(Color.parseColor("RED"));
             } else {
                 itemQuantity.setTextColor(Color.parseColor("WHITE"));

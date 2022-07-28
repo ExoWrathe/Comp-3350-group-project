@@ -46,7 +46,7 @@ public class AccessInventory {
 			isInserted = false;
 		} else {
 			activeInventory.addItem(newItemType);
-			dataAccess.insertItem(newItemType);
+			dataAccess.addItemType(newItemType);
 			ArrayList < Item > items = new ArrayList < > ();
 			for (int i = 0; i < quantity; i++) {
 				Item newItem = new Item(locationString, thisDate);
@@ -69,7 +69,7 @@ public class AccessInventory {
 	}
 
 	public ItemType getItem(int index) {
-		return activeInventory.getItem(index);
+		return activeInventory.getItemType(index);
 	}
 
 	public String getCategories(ArrayList < String > categoryList) {
@@ -114,7 +114,7 @@ public class AccessInventory {
 		if (index >= 0 && itemType.getQuantity() > 0) {
 			Item item = itemType.getItem(index);
 			itemType.removeItem(index);
-			dataAccess.removeItem(item.getId(), itemType.getID(), itemType.getQuantity());
+			dataAccess.removeItem(item.getItemId(), itemType.getID(), itemType.getQuantity());
 		}
 
 	}

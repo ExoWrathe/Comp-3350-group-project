@@ -88,7 +88,7 @@ public class DataAccessDatabase implements DataAccess {
                 for (int i = 0; i < itemTypes.size(); i++) {
                     if (itemTypes.get(i).getID() == itemTypeID) {
                         Item newItem = new Item(location, date);
-                        newItem.setId(id);
+                        newItem.setItemId(id);
                         itemTypes.get(i).addItem(newItem);
 
                     }
@@ -103,7 +103,7 @@ public class DataAccessDatabase implements DataAccess {
         return inventory;
     }
 
-    public void insertItem(ItemType item) {
+    public void addItemType(ItemType item) {
         String values;
 
         try {
@@ -149,7 +149,7 @@ public class DataAccessDatabase implements DataAccess {
         String values;
 
         try {
-            values = "\'" + item.getId() +
+            values = "\'" + item.getItemId() +
                     "', " + itemTypeID +
                     ", '" + item.getDate() +
                     "', '" + item.getLocation() +
@@ -307,7 +307,7 @@ public class DataAccessDatabase implements DataAccess {
         try {
             String values = " LOCATIONNAME='" + location +
                     "'";
-            cmdString = "Update ITEM Set " + values + " where ID=" + item.getId();
+            cmdString = "Update ITEM Set " + values + " where ID=" + item.getItemId();
 
             updateCount = st2.executeUpdate(cmdString);
             result = checkWarning(st2, updateCount);

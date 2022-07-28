@@ -45,7 +45,7 @@ public class Inventory {
         return removed;
     }
 
-    public ItemType getItem(int index) throws IndexOutOfBoundsException {
+    public ItemType getItemType(int index) throws IndexOutOfBoundsException {
 
         if (index < 0 || index >= items.size())
             throw new IndexOutOfBoundsException();

@@ -66,7 +66,7 @@ public class DataAccessTest extends TestCase {
 
         //Item Type Tests
         ItemType milk = new ItemType("Milk", 5, "Warehouse", "7/27/2022", "Dairy");
-        dataAccess.insertItem(milk);
+        dataAccess.addItemType(milk);
         inventory = dataAccess.getActiveInventory();
         assertTrue(inventory.contains(milk));
 
@@ -101,16 +101,16 @@ public class DataAccessTest extends TestCase {
         milk.addItem(firstMilk);
         dataAccess.addItem(firstMilk, milk.getID());
         inventory = dataAccess.getActiveInventory();
-        assertEquals(firstMilk.getId(), inventory.getItem(0).getItem(0).getId());
+        assertEquals(firstMilk.getItemId(), inventory.getItemType(0).getItem(0).getItemId());
 
         dataAccess.editItem(firstMilk, "Warehouse2");
         inventory = dataAccess.getActiveInventory();
-        assertEquals("Warehouse2", inventory.getItem(0).getItem(0).getLocation());
+        assertEquals("Warehouse2", inventory.getItemType(0).getItem(0).getLocation());
 
-        dataAccess.removeItem(firstMilk.getId(), milk.getID(), milk.getQuantity());
+        dataAccess.removeItem(firstMilk.getItemId(), milk.getID(), milk.getQuantity());
         milk.removeItem(0);
         inventory = dataAccess.getActiveInventory();
-        assertNull(inventory.getItem(0).getItem(0));
+        assertNull(inventory.getItemType(0).getItem(0));
     }
 
     public void testTypicalCases() {
@@ -122,19 +122,37 @@ public class DataAccessTest extends TestCase {
         dataAccess.addLocation("Warehouse");
         dataAccess.addLocation("Store");
         ItemType itemType = new ItemType("Banana", 0.25f, "Warehouse", "7/27/2022", "Produce");
-        dataAccess.insertItem(itemType);
-        for (int i = 0; i < 5; i++) {
-            Item item = new Item("Warehouse", "7/27/2022");
-            itemType.addItem(item);
-            dataAccess.addItem(item, itemType.getID());
-        }
+        dataAccess.addItemType(itemType);
+
+        //Adding 5 items
+        Item item = new Item("Warehouse", "7/27/2022");
+        itemType.addItem(item);
+        dataAccess.addItem(item, itemType.getID());
+
+        item = new Item("Warehouse", "7/27/2022");
+        itemType.addItem(item);
+        dataAccess.addItem(item, itemType.getID());
+
+        item = new Item("Warehouse", "7/27/2022");
+        itemType.addItem(item);
+        dataAccess.addItem(item, itemType.getID());
+
+        item = new Item("Warehouse", "7/27/2022");
+        itemType.addItem(item);
+        dataAccess.addItem(item, itemType.getID());
+
+        item = new Item("Warehouse", "7/27/2022");
+        itemType.addItem(item);
+        dataAccess.addItem(item, itemType.getID());
+
+
         inventory = dataAccess.getActiveInventory();
         dataAccess.getLocationList(locationList);
         dataAccess.getCategoryList(categoryList);
         itemType.getItem(0).setLocation("Store");
-        dataAccess.editItem(inventory.getItem(0).getItem(0), "Store");
+        dataAccess.editItem(inventory.getItemType(0).getItem(0), "Store");
         itemType.removeItem(1);
-        dataAccess.removeItem(inventory.getItem(0).getItem(1).getId(), inventory.getItem(0).getID(), inventory.getItem(0).getQuantity());
+        dataAccess.removeItem(inventory.getItemType(0).getItem(1).getItemId(), inventory.getItemType(0).getID(), inventory.getItemType(0).getQuantity());
 
         categoryList.clear();
         locationList.clear();
@@ -142,8 +160,8 @@ public class DataAccessTest extends TestCase {
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
         assertEquals(1, inventory.getNumOfItems());
-        assertEquals(4, inventory.getItem(0).getQuantity());
-        assertEquals("Store", inventory.getItem(0).getItem(0).getLocation());
+        assertEquals(4, inventory.getItemType(0).getQuantity());
+        assertEquals("Store", inventory.getItemType(0).getItem(0).getLocation());
         assertEquals(1, categoryList.size());
         assertEquals(2, locationList.size());
     }
@@ -166,7 +184,7 @@ public class DataAccessTest extends TestCase {
         dataAccess.addLocation("1");
         dataAccess.addCategory("1");
         ItemType itemType = new ItemType("Banana", 0.25f, "Warehouse", "7/27/2022", "Produce");
-        dataAccess.insertItem(itemType);
+        dataAccess.addItemType(itemType);
 
         categoryList.clear();
         locationList.clear();
@@ -174,7 +192,7 @@ public class DataAccessTest extends TestCase {
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(0, inventory.getItem(0).getQuantity());
+        assertEquals(0, inventory.getItemType(0).getQuantity());
         assertEquals(1, inventory.getNumOfItems());
         assertEquals(1, categoryList.size());
         assertEquals(1, locationList.size());
@@ -185,11 +203,11 @@ public class DataAccessTest extends TestCase {
 
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(1, inventory.getItem(0).getQuantity());
+        assertEquals(1, inventory.getItemType(0).getQuantity());
 
         //After Removing
         itemType.removeItem(0);
-        dataAccess.removeItem(item.getId(), itemType.getID(), itemType.getQuantity());
+        dataAccess.removeItem(item.getItemId(), itemType.getID(), itemType.getQuantity());
         dataAccess.removeCategory("1");
         dataAccess.removeLocation("1");
 
@@ -199,7 +217,7 @@ public class DataAccessTest extends TestCase {
         dataAccess.getLocationList(locationList);
         inventory = dataAccess.getActiveInventory();
 
-        assertEquals(0, inventory.getItem(0).getQuantity());
+        assertEquals(0, inventory.getItemType(0).getQuantity());
         assertEquals(0, categoryList.size());
         assertEquals(0, locationList.size());
     }
@@ -210,7 +228,7 @@ public class DataAccessTest extends TestCase {
         ArrayList < String > locationList = new ArrayList < String > ();
 
         dataAccess.addItem(null, -1);
-        dataAccess.insertItem(null);
+        dataAccess.addItemType(null);
         dataAccess.addCategory(null);
         dataAccess.addLocation(null);
         dataAccess.removeLocation(null);

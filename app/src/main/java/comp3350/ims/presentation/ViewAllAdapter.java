@@ -36,7 +36,7 @@ public class ViewAllAdapter extends BaseAdapter {
         itemDate.setText("Date: " + item.getItem(position).getDate() + "");
 
         TextView itemId = (TextView) vi.findViewById(R.id.itemId);
-        itemId.setText("ID: " + item.getItem(position).getId() + "");
+        itemId.setText("ID: " + item.getItem(position).getItemId() + "");
 
         TextView itemLocation = (TextView) vi.findViewById(R.id.itemLocation);
         itemLocation.setText("Location: " + item.getItem(position).getLocation() + "");

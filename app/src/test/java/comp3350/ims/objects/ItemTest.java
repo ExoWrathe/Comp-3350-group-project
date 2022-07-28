@@ -14,17 +14,17 @@ public class ItemTest extends TestCase {
     public void testTypicaCases(){
         Item test = new Item();
         assertEquals(test.getDate(),"");
-        assertEquals(test.getId(),0);
+        assertEquals(test.getItemId(),0);
         assertEquals(test.getLocation(),"");
 
         Item test2 = new Item("location","date");
         assertEquals(test2.getLocation(),"location");
-        assertEquals(test2.getId(),"");
+        assertEquals(test2.getItemId(),"");
         assertEquals(test2.getDate(),"date");
 
         Item test3 = new Item("location","date");
         assertEquals(test3.getLocation(),"location");
-        assertEquals(test3.getId(),0);
+        assertEquals(test3.getItemId(),0);
         assertEquals(test3.getDate(),"date");
     }
 

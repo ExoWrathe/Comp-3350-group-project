@@ -13,7 +13,7 @@ public interface DataAccess {
 
     public Inventory getActiveInventory();
 
-    public void insertItem(ItemType item);
+    public void addItemType(ItemType item);
 
     public String getCategoryList(ArrayList < String > categoryList);
 

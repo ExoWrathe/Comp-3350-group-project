@@ -35,20 +35,20 @@ public class ActiveInventoryAdapter extends BaseAdapter {
         try {
 
             TextView itemName = (TextView) vi.findViewById(R.id.itemName);
-            itemName.setText("Name: " + filteredInventory.getItem(position).getName());
+            itemName.setText("Name: " + filteredInventory.getItemType(position).getName());
 
             TextView categoryName = (TextView) vi.findViewById(R.id.categoryName);
-            categoryName.setText("Category: " + filteredInventory.getItem(position).getCategory() + "");
+            categoryName.setText("Category: " + filteredInventory.getItemType(position).getCategory() + "");
 
             TextView itemQuantity = (TextView) vi.findViewById(R.id.itemQuantity);
-            itemQuantity.setText("Quantity: " + filteredInventory.getItem(position).getQuantity() + "");
+            itemQuantity.setText("Quantity: " + filteredInventory.getItemType(position).getQuantity() + "");
 
-            if (filteredInventory.getItem(position).needsRefill()) {
+            if (filteredInventory.getItemType(position).needsRefill()) {
                 itemQuantity.setTextColor(Color.parseColor("RED"));
             }
 
             TextView itemPrice = (TextView) vi.findViewById(R.id.itemPrice);
-            itemPrice.setText("Price: $" + filteredInventory.getItem(position).getPrice() + "");
+            itemPrice.setText("Price: $" + filteredInventory.getItemType(position).getPrice() + "");
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
@@ -63,7 +63,7 @@ public class ActiveInventoryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return filteredInventory.getItem(position);
+        return filteredInventory.getItemType(position);
     }
 
     @Override

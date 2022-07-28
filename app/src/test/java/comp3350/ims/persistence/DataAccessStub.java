@@ -47,7 +47,7 @@ public class DataAccessStub implements DataAccess {
 		return activeInventory;
 	}
 
-	public void insertItem(ItemType item) {
+	public void addItemType(ItemType item) {
 		// don't bother checking for duplicates
 		if(item != null) {
 			activeInventory.addItem(item);

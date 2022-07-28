@@ -8,6 +8,8 @@ import junit.framework.TestSuite;
 public class IntegrationTests extends TestCase {
     public static TestSuite suite;
 
+
+
     public static Test suite()
     {
         suite = new TestSuite("Integration tests");
