@@ -7,6 +7,7 @@ public class Main
 
 	public static void main(String[] args)
 	{
+
 		startUp();
 
 		shutDown();
@@ -16,6 +17,7 @@ public class Main
 	public static void startUp()
 	{
 		Services.createDataAccess(dbName);
+		//Services.createDataAccess(dataAccessService);
 	}
 
 	public static void shutDown()

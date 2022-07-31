@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ViewAllRowActivity">
+
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="500dp"
+        android:layout_height="90dp"
+        app:columnCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.263"
+        android:background="@color/ims_background"
+        app:rowCount="6">
+
+        <TextView
+            android:id="@+id/itemLocationLabel"
+            android:layout_width="250dp"
+            android:layout_height="77dp"
+            android:text="@string/item_location"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:textColor="@color/textColor"
+            android:textStyle="bold"
+            app:layout_column="0"
+            app:layout_row="4" />
+
+        <Spinner
+            android:id="@+id/spinnerLocation"
+            android:layout_width="211dp"
+            android:layout_height="38dp"
+            android:spinnerMode="dropdown"
+            app:layout_column="1"
+            app:layout_row="4" />
+
+    </android.support.v7.widget.GridLayout>
+
+</android.support.constraint.ConstraintLayout>

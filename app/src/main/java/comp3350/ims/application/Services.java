@@ -1,5 +1,6 @@
 package comp3350.ims.application;
 
+
 import comp3350.ims.persistence.DataAccess;
 import comp3350.ims.persistence.DataAccessDatabase;
 
@@ -18,12 +19,18 @@ public class Services
 		return dataAccessService;
 	}
 
+	public static void setAutoCommitOff(){
+		if(dataAccessService instanceof DataAccessDatabase){
+			((DataAccessDatabase) dataAccessService).setAutoCommitOff();
+		}
+	}
+
 	public static DataAccess createDataAccess(DataAccess alternateDataAccessService)
 	{
 		if (dataAccessService == null)
 		{
 			dataAccessService = alternateDataAccessService;
-			dataAccessService.open(Main.getDBPathName());
+			dataAccessService.open(Main.dbName);
 		}
 		return dataAccessService;
 	}

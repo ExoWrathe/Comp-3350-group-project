@@ -2,35 +2,36 @@ package comp3350.ims.objects;
 
 public class Item {
 
-    private String id;
+    private int itemId;
     private String location;
     private String date;
+    public static int ItemID;
 
     public Item() {
-        id = "";
         location = "";
         date = "";
+        itemId = ItemID++;
     }
 
     public Item(String location, String date) {
         this.date = date;
         this.location = location;
-        id = "";
+        itemId = ItemID++;
     }
 
-    public Item(String id, String location, String date) {
-        this.id = id;
-        this.date = date;
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int i) {
+        this.itemId = i;
+        if (i > ItemID) {
+            ItemID = i + 1;
+        }
+    }
+
+    public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String i) {
-        if(i != null)
-            this.id = i;
     }
 
     public String getDate() {

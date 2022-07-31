@@ -6,22 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
-
-import java.util.Locale;
-
 import comp3350.ims.R;
 import comp3350.ims.objects.Inventory;
+import comp3350.ims.objects.ItemType;
 
 public class ActiveInventoryAdapter extends BaseAdapter {
-    private Context context;
-    private Inventory activeInventory;
+    private Inventory filteredInventory;
+    private Inventory mainInventory;
     private static LayoutInflater inflater = null;
 
     public ActiveInventoryAdapter(Context context, Inventory inventory) {
-        this.context = context;
-        this.activeInventory = inventory;
-        this.activeInventory.reorderByQuantity();
+        this.filteredInventory = inventory;
+        this.mainInventory = inventory;
+        this.filteredInventory.reorderByQuantity();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -36,21 +35,21 @@ public class ActiveInventoryAdapter extends BaseAdapter {
         try {
 
             TextView itemName = (TextView) vi.findViewById(R.id.itemName);
-            itemName.setText("Name: " + activeInventory.getItem(position).getName());
+            itemName.setText("Name: " + filteredInventory.getItemType(position).getName());
 
             TextView categoryName = (TextView) vi.findViewById(R.id.categoryName);
-            categoryName.setText("Category: " + activeInventory.getItem(position).getCategory() + "");
+            categoryName.setText("Category: " + filteredInventory.getItemType(position).getCategory() + "");
 
             TextView itemQuantity = (TextView) vi.findViewById(R.id.itemQuantity);
-            itemQuantity.setText("Quantity: " + activeInventory.getItem(position).getQuantity() + "");
+            itemQuantity.setText("Quantity: " + filteredInventory.getItemType(position).getQuantity() + "");
 
-            if (activeInventory.getItem(position).needsRefill()) {
+            if (filteredInventory.getItemType(position).needsRefill()) {
                 itemQuantity.setTextColor(Color.parseColor("RED"));
             }
 
             TextView itemPrice = (TextView) vi.findViewById(R.id.itemPrice);
-            itemPrice.setText("Price: $" + activeInventory.getItem(position).getPrice() + "");
-        } catch (IndexOutOfBoundsException e){
+            itemPrice.setText("Price: $" + filteredInventory.getItemType(position).getPrice() + "");
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 
@@ -59,12 +58,12 @@ public class ActiveInventoryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return activeInventory.items.size();
+        return filteredInventory.items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return activeInventory.getItem(position);
+        return filteredInventory.getItemType(position);
     }
 
     @Override
@@ -72,4 +71,45 @@ public class ActiveInventoryAdapter extends BaseAdapter {
         return position;
     }
 
+    Filter myFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            Inventory tempInventory = new Inventory();
+
+            if (constraint == null || constraint.length() == 0) {
+                results.count = mainInventory.getNumOfItems();
+                results.values = mainInventory;
+            } else {
+                ItemType item;
+                for (int i = 0; i < mainInventory.getNumOfItems(); i++) {
+                    item = mainInventory.items.get(i);
+                    if (((item.getName()).toLowerCase()).startsWith((constraint.toString()).toLowerCase())) {
+                        tempInventory.addItem(item);
+                    }
+                }
+                results.count = tempInventory.items.size();
+                results.values = tempInventory;
+            }
+
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            if (results.count > 0) {
+                filteredInventory = (Inventory) results.values;
+                mainInventory.setFilteredItems(filteredInventory.items);
+                notifyDataSetChanged();
+            } else {
+                notifyDataSetInvalidated();
+            }
+        }
+    };
+
+    public Filter getFilter() {
+        return myFilter;
+    }
 }
