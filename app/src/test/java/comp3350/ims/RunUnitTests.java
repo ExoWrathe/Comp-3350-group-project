@@ -1,14 +1,17 @@
+package comp3350.ims;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import comp3350.ims.objects.DataAccessTest;
+
+import comp3350.ims.business.AccessInventoryTest;
 import comp3350.ims.objects.InventoryTest;
 import comp3350.ims.objects.ItemTest;
 import comp3350.ims.objects.ItemTypeTest;
+import comp3350.ims.persistence.DataAccessTest;
 
-public class AllTests extends TestCase
+public class RunUnitTests extends TestCase
 {
     public static TestSuite suite;
 
@@ -25,6 +28,6 @@ public class AllTests extends TestCase
         suite.addTestSuite(InventoryTest.class);
         suite.addTestSuite(ItemTest.class);
         suite.addTestSuite(ItemTypeTest.class);
-        suite.addTestSuite(DataAccessTest.class);
+        suite.addTestSuite(DataAccessTest.class);;
     }
 }

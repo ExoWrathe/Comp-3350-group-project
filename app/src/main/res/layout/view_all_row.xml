@@ -16,7 +16,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:text="ItemName"
-            android:textColor="#070707"
+            android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:text="itemLocation"
-            android:textColor="#070707"
+            android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -43,7 +43,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:text="itemId"
-            android:textColor="#070707"
+            android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:text="itemDate"
-            android:textColor="#070707"
+            android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -64,14 +64,32 @@
         android:layout_height="match_parent"
         android:layout_weight="4"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/removeItemButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="4"
-            android:onClick="buttonRemoveItem"
-            android:text="Remove" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/editItemButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:onClick="buttonEditItemDialogOnClick"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_button"
+                android:layout_marginRight="@dimen/default_gap"
+                android:text="Change Location" />
+
+            <Button
+                android:id="@+id/removeItemButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:layout_gravity="center"
+                android:onClick="buttonRemoveItem"
+                android:background="@drawable/custom_red_button"
+                android:text="Remove" />
+        </LinearLayout>
 
     </LinearLayout>
 

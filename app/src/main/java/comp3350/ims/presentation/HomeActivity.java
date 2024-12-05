@@ -2,6 +2,8 @@ package comp3350.ims.presentation;
 
 import comp3350.ims.R;
 import comp3350.ims.application.Main;
+import comp3350.ims.business.AccessInventory;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -50,29 +52,17 @@ public class HomeActivity extends Activity {
     }
 
     public void buttonManagerOnClick(View v) {
+        AccessInventory.setIsManager(true);
         Intent jobPositionActivityIntent = new Intent(HomeActivity.this, JobPosition.class);
         HomeActivity.this.startActivity(jobPositionActivityIntent);
     }
 
     public void buttonEmployeeOnClick(View v) {
+        AccessInventory.setIsManager(false);
         Intent coursesIntent = new Intent(HomeActivity.this, ActiveInventoryActivity.class);
         HomeActivity.this.startActivity(coursesIntent);
     }
 
-//    public void buttonCreateNewItemOnClick(View v) {
-//        Intent itemCreateIntent = new Intent(HomeActivity.this, ItemCreateActivity.class);
-//        HomeActivity.this.startActivity(itemCreateIntent);
-//    }
-//
-//    public void buttonInventoryOnClick(View v) {
-//        Intent coursesIntent = new Intent(HomeActivity.this, ActiveInventoryActivity.class);
-//        HomeActivity.this.startActivity(coursesIntent);
-//    }
-//
-//    public void buttonCategoryOnClick(View v) {
-//        Intent coursesIntent = new Intent(HomeActivity.this, CategoryActivity.class);
-//        HomeActivity.this.startActivity(coursesIntent);
-//    }
 
     private void copyDatabaseToDevice() {
         final String DB_PATH = "db";
@@ -94,14 +84,14 @@ public class HomeActivity extends Activity {
             Main.setDBPathName(dataDirectory.toString() + "/" + Main.dbName);
 
         } catch (IOException ioe) {
-            System.out.println("THISNOWORKL");
+            System.out.println("Error");
         }
     }
 
     public void copyAssetsToDirectory(String[] assets, File directory) throws IOException {
         AssetManager assetManager = getAssets();
 
-        for (String asset : assets) {
+        for (String asset: assets) {
             String[] components = asset.split("/");
             String copyPath = directory.toString() + "/" + components[components.length - 1];
             char[] buffer = new char[1024];
@@ -113,21 +103,18 @@ public class HomeActivity extends Activity {
                 InputStreamReader in = new InputStreamReader(assetManager.open(asset));
                 FileWriter out = new FileWriter(outFile);
 
-                count = in.read(buffer);
+                count = in .read(buffer);
                 while (count != -1) {
                     out.write(buffer, 0, count);
-                    count = in.read(buffer);
+                    count = in .read(buffer);
                 }
 
-                out.close();
-                in.close();
+                out.close(); in .close();
             }
         }
     }
 
-//    public void buttonLocationOnClick(View v) {
-//        Intent coursesIntent = new Intent(HomeActivity.this, LocationActivity.class);
-//        HomeActivity.this.startActivity(coursesIntent);
-//    }
+
+
 
 }

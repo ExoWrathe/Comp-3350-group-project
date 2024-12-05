@@ -43,7 +43,7 @@ public class ActiveInventoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_active_inventory);
 
         Toolbar mTopToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-         setSupportActionBar(mTopToolbar);
+        setSupportActionBar(mTopToolbar);
 
         accessInventory = new AccessInventory();
 
@@ -68,7 +68,7 @@ public class ActiveInventoryActivity extends AppCompatActivity {
     private String saveName = "";
     private float savePrice = 0;
     private String saveCategory;
-//    @RequiresApi(api = Build.VERSION_CODES.M)
+    //    @RequiresApi(api = Build.VERSION_CODES.M)
     public void buttonEditDialogOnClick(View v) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -88,18 +88,18 @@ public class ActiveInventoryActivity extends AppCompatActivity {
         adapterCategory.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinCategory.setAdapter(adapterCategory);
 
+        Spinner newCategory = (Spinner) inflator.findViewById(R.id.spinnerCategory);
+        ArrayAdapter < String > spinnerAdap = (ArrayAdapter < String > ) newCategory.getAdapter();
+        int spinnerPosition = spinnerAdap.getPosition(item.getCategory());
+        newCategory.setSelection(spinnerPosition);
+
         EditText newName = (EditText) inflator.findViewById(R.id.itemNameInputs);
         newName.setText(item.getName());
         newName.setInputType(InputType.TYPE_CLASS_TEXT);
 
         EditText newPrice = (EditText) inflator.findViewById(R.id.itemPriceInput);
-        String priceText = ""+item.getPrice();
+        String priceText = "" + item.getPrice();
         newPrice.setText(priceText);
-
-        Spinner newCategory = (Spinner) inflator.findViewById(R.id.spinnerCategory);
-        ArrayAdapter<String> spinnerAdap =  (ArrayAdapter<String>) newCategory.getAdapter();
-        int spinnerPosition = spinnerAdap.getPosition(item.getCategory());
-        newCategory.setSelection(spinnerPosition);
 
         builder.setView(inflator);
 
@@ -111,10 +111,9 @@ public class ActiveInventoryActivity extends AppCompatActivity {
                 savePrice = Float.parseFloat(newPrice.getText().toString());
                 saveCategory = spinCategory.getSelectedItem().toString();
 
-                item.setName(saveName);
-                item.setPrice(savePrice);
-                item.setCategory(saveCategory);
+
                 adapter.notifyDataSetChanged();
+                accessInventory.editItemType(item, saveName, savePrice, saveCategory);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -137,20 +136,20 @@ public class ActiveInventoryActivity extends AppCompatActivity {
         Date todayDate = new Date();
         String thisDate = currentDate.format(todayDate);
 
-        accessInventory.addItem(itemType.getLocation(),thisDate,itemType);
+        accessInventory.addItem(itemType.getLocation(), thisDate, itemType);
 
         TextView itemQuantity = ((View) v.getParent()).findViewById(R.id.itemQuantity);
         try {
-            if (activeInventory.getItem(position).needsRefill()) {
+            if (activeInventory.getItemType(position).needsRefill()) {
                 itemQuantity.setTextColor(Color.parseColor("RED"));
             } else {
-                itemQuantity.setTextColor(Color.parseColor("BLACK"));
+                itemQuantity.setTextColor(Color.parseColor("WHITE"));
             }
 
             updateDataChanges();
 
             Toast.makeText(this, "Item Added", Toast.LENGTH_SHORT).show();
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 
@@ -164,7 +163,7 @@ public class ActiveInventoryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_home,menu);
+        getMenuInflater().inflate(R.menu.menu_home, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) item.getActionView();
@@ -206,31 +205,36 @@ public class ActiveInventoryActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void sortNameAscending(View v){
+    public void sortNameAscending(View v) {
         activeInventory.sortByName();
         updateDataChanges();
     }
 
-    public void sortNameDescending(View v){
+    public void sortNameDescending(View v) {
         activeInventory.reverseSortByName();
         updateDataChanges();
     }
 
-    public void sortPriceAscending(View v){
+    public void sortPriceAscending(View v) {
         activeInventory.sortByPrice();
         updateDataChanges();
     }
 
-    public void sortPriceDescending(View v){
+    public void sortPriceDescending(View v) {
         activeInventory.reverseSortByPrice();
         updateDataChanges();
     }
 
 
     @Override
-    public void onBackPressed(){
-        Intent coursesIntent = new Intent(this, HomeActivity.class);
-        this.startActivity(coursesIntent);
+    public void onBackPressed() {
+        if (AccessInventory.isIsManager()) {
+            Intent coursesIntent = new Intent(this, JobPosition.class);
+            this.startActivity(coursesIntent);
+        } else {
+            Intent coursesIntent = new Intent(this, HomeActivity.class);
+            this.startActivity(coursesIntent);
+        }
     }
 
 

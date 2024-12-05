@@ -1,7 +1,5 @@
 package comp3350.ims.persistence;
 import java.util.ArrayList;
-import java.util.List;
-
 import comp3350.ims.objects.Inventory;
 import comp3350.ims.objects.Item;
 import comp3350.ims.objects.ItemType;
@@ -15,7 +13,7 @@ public interface DataAccess {
 
     public Inventory getActiveInventory();
 
-    public void insertItem(ItemType item);
+    public void addItemType(ItemType item);
 
     public String getCategoryList(ArrayList < String > categoryList);
 
@@ -35,7 +33,7 @@ public interface DataAccess {
 
     public boolean removeItem(int itemID,int itemTypeID, int quantity);
 
-    public boolean editItemType(ItemType itemType);
+    public boolean editItemType(ItemType itemType,String name,float price,String category);
 
-    public boolean editItem(Item item);
+    public boolean editItem(Item item,String location);
 }

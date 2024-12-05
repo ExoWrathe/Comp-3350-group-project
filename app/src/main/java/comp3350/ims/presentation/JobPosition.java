@@ -7,6 +7,7 @@ import android.view.View;
 
 import comp3350.ims.R;
 
+
 public class JobPosition extends AppCompatActivity {
 
     @Override
@@ -33,5 +34,11 @@ public class JobPosition extends AppCompatActivity {
     public void buttonInventoryOnClick(View v) {
         Intent coursesIntent = new Intent(JobPosition.this, ActiveInventoryActivity.class);
         JobPosition.this.startActivity(coursesIntent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent coursesIntent = new Intent(this, HomeActivity.class);
+        this.startActivity(coursesIntent);
     }
 }

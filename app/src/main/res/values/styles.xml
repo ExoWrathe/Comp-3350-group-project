@@ -15,4 +15,13 @@
 
     </style>
 
+    <style name="background">
+        <item name="android:background">#1B2430</item>
+    </style>
+
+    <style name="ListFont">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
 </resources>
